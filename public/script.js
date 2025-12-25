@@ -1,82 +1,83 @@
-const RASIS = [
-  "Aries", "Taurus", "Gemini", "Cancer",
-  "Leo", "Virgo", "Libra", "Scorpio",
-  "Sagittarius", "Capricorn", "Aquarius", "Pisces"
-];
-const DEV_API_KEY = "dev-key-123";
+document.addEventListener("DOMContentLoaded", () => {
 
-function longitudeToRasi(longitude) {
-  return RASIS[Math.floor(longitude / 30)];
-}
+  const API_KEY = "dev-key-123";
 
-async function loadChart() {
-  console.log("Loading chart…");
-
-  const payload = {
-    date: "1997-05-03",
-    time: "20:07:00",
-    lat: 11.341,
-    lon: 77.717,
-    timezone: 5.5
+  const PLACES = {
+    erode: { lat: 11.341, lon: 77.717, tz: 5.5 },
+    chennai: { lat: 13.0827, lon: 80.2707, tz: 5.5 },
+    coimbatore: { lat: 11.0168, lon: 76.9558, tz: 5.5 },
+    bangalore: { lat: 12.9716, lon: 77.5946, tz: 5.5 }
   };
 
-  const res = await fetch("/api/chart", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": "dev-key-123"
-    },
-    body: JSON.stringify(payload)
-  });
+  const btn = document.getElementById("generate");
 
-  if (!res.ok) {
-    console.error("Chart API failed", res.status);
-    return;
-  }
+  btn.addEventListener("click", async () => {
 
-  const data = await res.json();
-  console.log("API DATA:", data);
+    const dob = document.getElementById("dob").value;
+    const tob = document.getElementById("tob").value;
+    const placeKey = document.getElementById("place").value;
 
-  // ---- RESET UI ----
-  document.querySelectorAll(".box").forEach(box => {
-    box.classList.remove("lagna");
-    box.querySelectorAll(".planet").forEach(p => p.remove());
-  });
-
-  // ---- APPLY LAGNA ----
-  const lagnaSign = data.lagna.rasi;
-  console.log("Lagna sign:", lagnaSign);
-
-  const lagnaBox = document.querySelector(
-    `.box[data-sign="${lagnaSign}"]`
-  );
-
-  if (!lagnaBox) {
-    console.error("Lagna box NOT FOUND for:", lagnaSign);
-  } else {
-    lagnaBox.classList.add("lagna");
-  }
-
-  // ---- PLACE PLANETS ----
-  Object.entries(data.planets).forEach(([planet, info]) => {
-    const rasi = info.rasi;
-    const box = document.querySelector(`.box[data-sign="${rasi}"]`);
-
-    if (!box) {
-      console.warn("No box for planet", planet, rasi);
+    if (!dob || !tob || !placeKey) {
+      alert("Fill all fields");
       return;
     }
 
-    const div = document.createElement("div");
-    div.className = "planet";
-    div.textContent = planet;
+    const place = PLACES[placeKey];
 
-    if (planet === "Rahu") div.classList.add("rahu");
-    if (planet === "Ketu") div.classList.add("ketu");
+    document.getElementById("lat").textContent = place.lat;
+    document.getElementById("lon").textContent = place.lon;
+    document.getElementById("tz").textContent = place.tz;
 
-    box.appendChild(div);
+    const time = tob.length === 5 ? tob + ":00" : tob;
+
+    const payload = {
+      date: dob,
+      time,
+      lat: place.lat,
+      lon: place.lon,
+      timezone: place.tz
+    };
+
+    const res = await fetch("/api/chart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": API_KEY
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      alert("Chart generation failed");
+      return;
+    }
+
+    const data = await res.json();
+
+    // RESET
+    document.querySelectorAll(".box").forEach(b => {
+      b.classList.remove("lagna");
+      b.querySelectorAll(".planet").forEach(p => p.remove());
+    });
+
+    // LAGNA
+    const lagnaBox = document.querySelector(
+      `.box[data-sign="${data.lagna.rasi}"]`
+    );
+    if (lagnaBox) lagnaBox.classList.add("lagna");
+
+    // PLANETS
+    Object.entries(data.planets).forEach(([name, info]) => {
+      const box = document.querySelector(
+        `.box[data-sign="${info.rasi}"]`
+      );
+      if (!box) return;
+
+      const p = document.createElement("div");
+      p.className = "planet";
+      p.textContent = name;
+      box.appendChild(p);
+    });
   });
-}
 
-// ---- ENSURE DOM IS READY ----
-document.addEventListener("DOMContentLoaded", loadChart);
+});

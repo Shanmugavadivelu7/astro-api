@@ -2,37 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>South Indian Rasi Chart</title>
+  <title>South Indian Horoscope</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<h2>South Indian Rasi Chart</h2>
+<div class="app">
 
-<div class="chart">
-  <!-- Top row -->
-  <div class="box" data-sign="Pisces"></div>
-  <div class="box" data-sign="Aries"></div>
-  <div class="box" data-sign="Taurus"></div>
-  <div class="box" data-sign="Gemini"></div>
+  <!-- SOUTH INDIAN CHART -->
+  <div class="chart-container">
+    <div class="chart">
 
-  <!-- Row 2 -->
-  <div class="box" data-sign="Aquarius"></div>
-  <div class="center"></div>
-  <div class="center"></div>
-  <div class="box" data-sign="Cancer"></div>
+      <!-- Row 1 -->
+      <div class="box" data-sign="Pisces"><span class="label">Pisces</span></div>
+      <div class="box" data-sign="Aries"><span class="label">Aries</span></div>
+      <div class="box" data-sign="Taurus"><span class="label">Taurus</span></div>
+      <div class="box" data-sign="Gemini"><span class="label">Gemini</span></div>
 
-  <!-- Row 3 -->
-  <div class="box" data-sign="Capricorn"></div>
-  <div class="center"></div>
-  <div class="center"></div>
-  <div class="box" data-sign="Leo"></div>
+      <!-- Row 2 -->
+      <div class="box" data-sign="Aquarius"><span class="label">Aquarius</span></div>
+      <div class="box empty"></div>
+      <div class="box empty"></div>
+      <div class="box" data-sign="Cancer"><span class="label">Cancer</span></div>
 
-  <!-- Bottom row -->
-  <div class="box" data-sign="Sagittarius"></div>
-  <div class="box" data-sign="Scorpio"></div>
-  <div class="box" data-sign="Libra"></div>
-  <div class="box" data-sign="Virgo"></div>
+      <!-- Row 3 -->
+      <div class="box" data-sign="Capricorn"><span class="label">Capricorn</span></div>
+      <div class="box empty"></div>
+      <div class="box empty"></div>
+      <div class="box" data-sign="Leo"><span class="label">Leo</span></div>
+
+      <!-- Row 4 -->
+      <div class="box" data-sign="Sagittarius"><span class="label">Sagittarius</span></div>
+      <div class="box" data-sign="Scorpio"><span class="label">Scorpio</span></div>
+      <div class="box" data-sign="Libra"><span class="label">Libra</span></div>
+      <div class="box" data-sign="Virgo"><span class="label">Virgo</span></div>
+
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-container">
+    <h2>Birth Details</h2>
+
+    <label>Date</label>
+    <input type="date" id="dob" />
+
+    <label>Time</label>
+    <input type="time" id="tob" step="1" />
+
+    <label>Place</label>
+    <select id="place">
+      <option value="">Select</option>
+      <option value="erode">Erode</option>
+      <option value="chennai">Chennai</option>
+      <option value="coimbatore">Coimbatore</option>
+      <option value="bangalore">Bangalore</option>
+    </select>
+
+    <button id="generate">Generate Chart</button>
+
+    <div class="meta">
+      <p><b>Lat:</b> <span id="lat">–</span></p>
+      <p><b>Lon:</b> <span id="lon">–</span></p>
+      <p><b>TZ:</b> <span id="tz">–</span></p>
+    </div>
+  </div>
+
 </div>
 
 <script src="script.js"></script>

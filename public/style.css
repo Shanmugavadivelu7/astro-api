@@ -1,63 +1,42 @@
 body {
-  font-family: "Times New Roman", serif;
-  background: #f8f3e8;
+  font-family: Georgia, serif;
+  background: #faf6ea;
+}
+
+.app {
+  display: flex;
+  gap: 40px;
   padding: 20px;
 }
 
-h2 {
-  margin-bottom: 15px;
-}
-
-/* Chart grid */
 .chart {
   display: grid;
-  grid-template-columns: repeat(4, 140px);
-  grid-template-rows: repeat(4, 140px);
-  border: 2px solid black;
-  width: max-content;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  width: 420px;
+  height: 420px;
+  border: 2px solid #000;
 }
 
-/* Rasi box */
 .box {
-  border: 1px solid black;
-  padding: 24px 6px 6px 6px;
-  font-size: 14px;
-  box-sizing: border-box;
+  border: 1px solid #000;
   position: relative;
+  padding: 6px;
 }
 
-/* Sign header */
-.box::before {
-  content: attr(data-sign);
-  position: absolute;
-  top: 4px;
-  left: 6px;
-  font-size: 12px;
-  font-weight: bold;
-  width: calc(100% - 12px);
-  border-bottom: 1px solid black;
-  padding-bottom: 2px;
-}
-
-/* Planet label */
-.planet {
-  font-size: 13px;
-  margin-top: 2px;
-}
-
-/* Rahu & Ketu emphasis */
-.planet.rahu {
-  font-weight: bold;
-}
-
-.planet.ketu {
-  font-weight: bold;
-  font-style: italic;
-}
-
-/* Center space */
-.center {
+.box.empty {
+  border: none;
   background: transparent;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.planet {
+  margin-top: 16px;
+  font-size: 13px;
 }
 
 .lagna {
@@ -74,11 +53,34 @@ h2 {
   color: darkred;
 }
 
-.planet.rahu {
-  font-weight: bold;
+/* FORM */
+.form-container {
+  width: 260px;
+  background: #f3f3f3;
+  padding: 16px;
+  border-radius: 8px;
 }
 
-.planet.ketu {
-  font-style: italic;
+.form-container h2 {
+  margin-bottom: 10px;
+}
+
+.form-container label {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.form-container input,
+.form-container select {
+  width: 100%;
+  padding: 6px;
+  margin-top: 4px;
+}
+
+.form-container button {
+  margin-top: 16px;
+  width: 100%;
+  padding: 8px;
   font-weight: bold;
 }
